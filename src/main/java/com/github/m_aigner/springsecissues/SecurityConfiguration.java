@@ -5,6 +5,7 @@ import org.springframework.ldap.core.support.LdapContextSource;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.ldap.userdetails.UserDetailsContextMapper;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -21,4 +22,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         return source;
     }
+
+    @Bean
+    UserDetailsContextMapper mapper() {
+        return new LoggingUserDetailsMapper();
+    }
+
 }
