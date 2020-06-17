@@ -1,0 +1,24 @@
+package com.github.m_aigner.springsecissues;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.ldap.core.support.LdapContextSource;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+@EnableWebSecurity
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        http.formLogin().successForwardUrl("/loginsuccessful");
+    }
+
+    @Bean
+    LdapContextSource contextSource() {
+        LdapContextSource source = new LdapContextSource();
+        source.setBase("dc=example,dc=com");
+        source.setUrl("ldap://localhost");
+
+        return source;
+    }
+}
