@@ -2,6 +2,7 @@ package com.github.m_aigner.springsecissues;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.ldap.core.support.LdapContextSource;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -28,4 +29,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new LoggingUserDetailsMapper();
     }
 
+    @Override
+    public void configure(AuthenticationManagerBuilder amb) throws Exception {
+        amb
+            .ldapAuthentication()
+                .contextSource(contextSource())
+                .groupSearchBase("ou=groups")
+                .userDnPatterns("uid={0},ou=people")
+                .userDetailsContextMapper(mapper());
+    }
 }
